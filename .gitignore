@@ -1,0 +1,8 @@
+/vendor/
+/var/
+/generated/
+*.log
+*.cache
+*.lock
+.idea/
+.DS_Store
