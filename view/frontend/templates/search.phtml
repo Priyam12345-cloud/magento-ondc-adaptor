@@ -1,0 +1,42 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$productCollection = $objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory')
+    ->create()
+    ->addAttributeToSelect('*')
+    ->setPageSize(10); // Limit for demo
+?>
+
+<h1>Magento Products (ONDC View)</h1>
+
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Category ID</th>
+            <th>Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($productCollection as $product): ?>
+            <tr>
+                <td><?= $product->getId() ?></td>
+                <td><?= $product->getName() ?></td>
+                <td>
+                    <?php if ($product->getImage() && $product->getImage() !== 'no_selection'): ?>
+                        <img src="<?= $block->getUrl('pub/media/catalog/product') . $product->getImage() ?>" width="80" />
+                    <?php else: ?>
+                        No image
+                    <?php endif; ?>
+                </td>
+                <td><?= $product->getPrice() ?> INR</td>
+                <td><?= $product->getCategoryIds() ? implode(', ', $product->getCategoryIds()) : 'N/A' ?></td>
+                <td>Coming Soon</td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
